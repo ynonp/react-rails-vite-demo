@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import useSWR from 'swr';
 import { createRoot } from 'react-dom/client';
 import Homepage from "../routes/homepage";
@@ -9,15 +9,23 @@ import {
   Routes,
   Outlet,
   useLocation,
+  useHref,
 } from "react-router-dom";
 
-const fetcher = (url) =>
-  fetch(url, { headers: { accept: 'application/json' } })
-  .then((res) => res.json());
+const fetcher = async (url) => {
+  const pageData = document.querySelector(`#page-data[data-url="${url}"]`);
+  if (pageData) {
+    console.log(`Reading data from page`);
+    return JSON.parse(pageData.innerHTML);
+  } else {
+    const res = await fetch(url, { headers: { accept: 'application/json' } })
+    return await res.json();
+  }
+}
 
 function Layout() {
   const location = useLocation();
-  const url = location.pathname;
+  const url = useHref(location);
   const { data, error } = useSWR(url, fetcher)
 
   if (error) {

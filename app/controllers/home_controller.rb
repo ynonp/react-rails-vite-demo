@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @page = 'Home Page'
-    respond_with(page: @page)
+    @page = { page: 'Home Page' }
+    respond_with(@page)
   end
 end

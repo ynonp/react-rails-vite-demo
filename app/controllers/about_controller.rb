@@ -1,6 +1,6 @@
 class AboutController < ApplicationController
   def index
-    @page = 'About Page'
-    respond_with(page: @page)
+    @page = { page: 'About Page' }
+    respond_with(@page)
   end
 end

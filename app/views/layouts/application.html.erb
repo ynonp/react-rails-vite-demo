@@ -8,7 +8,6 @@
 
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
 
 <script type="module">
 import RefreshRuntime from "/vite-dev/@react-refresh"
@@ -22,6 +21,12 @@ window.__vite_plugin_react_preamble_installed__ = true
   </head>
 
   <body>
+    <% if defined?(@page) %>
+      <script type="text/json" id="page-data" data-url="<%= request.fullpath %>">
+        <%= raw @page.to_json %>
+      </script>
+    <% end %>
+
     <div id="app"></div>
     <%= vite_javascript_tag 'application.jsx' %>
   </body>
